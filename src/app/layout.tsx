@@ -6,7 +6,7 @@ import Header from '@/components/Header'
 import Container from '@/components/Container'
 
 const inter = Inter({ subsets: ['latin'] })
-const titillium = Titillium_Web({ subsets: ['latin'], weight: ['400', '600', '700'], variable: '--titillium' })
+const titillium = Titillium_Web({ subsets: ['latin'], weight: ['400', '700'], variable: '--titillium' })
 
 export const metadata: Metadata = {
   title: 'Conduit',
@@ -19,8 +19,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.className} ${titillium.variable}`}>
         <Container>
           <Header />
-          {children}
         </Container>
+        {children}
       </body>
     </html>
   )
