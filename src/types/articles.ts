@@ -22,3 +22,7 @@ export interface IAuthor {
   image: string
   following: boolean
 }
+
+export interface ITags {
+  tags: string[]
+}
