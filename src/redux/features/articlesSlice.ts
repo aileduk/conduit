@@ -1,12 +1,19 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 
-import { IArticle, IArticles, ITags } from '@/types/articles'
-import { Endpoints, URL } from '@/app/config/settings'
+import { ArticlesParamsValues, DownloadStatus, IArticle, IArticles, ITags } from '@/types/articles'
+import { ArticlesParams, Endpoints, URL } from '@/app/config/settings'
+import { NUMBER_OF_ARTICLES_PER_PAGE } from '@/consts'
 
-export const getGlobalArticles = createAsyncThunk<IArticles, undefined, { rejectValue: string }>(
+export const getGlobalArticles = createAsyncThunk<IArticles, ArticlesParamsValues, { rejectValue: string }>(
   'articles/getGlobalArticles',
-  async (_, { rejectWithValue }) => {
-    const response = await fetch(`${URL}${Endpoints.Articles}`)
+  async (params, { rejectWithValue }) => {
+    const tagParam = params.tag ? `${ArticlesParams.Tag}=${params.tag}` : ''
+
+    const response = await fetch(
+      `${URL}${Endpoints.Articles}?${ArticlesParams.Limit}=${NUMBER_OF_ARTICLES_PER_PAGE}&${ArticlesParams.Offset}=${
+        NUMBER_OF_ARTICLES_PER_PAGE * params.page
+      }&${tagParam}`
+    )
 
     if (!response.ok) return rejectWithValue('Server error!')
 
@@ -30,51 +37,62 @@ type IArticlesState = {
   globalArticles: IArticle[]
   allTags: string[]
   globalArticlesCount: number
-  articleLoadingStatus: string | null
-  tagsLoadingStatus: string | null
+  globalArticlesDownloadStatus: string | null
+  tagsDownloadStatus: string | null
   error: string | null | undefined
+  selectedTag: string | null
+  page: number
 }
 
 const initialState: IArticlesState = {
   globalArticles: [],
   allTags: [],
   globalArticlesCount: 0,
-  articleLoadingStatus: null,
-  tagsLoadingStatus: null,
-  error: null
+  globalArticlesDownloadStatus: null,
+  tagsDownloadStatus: null,
+  error: null,
+  selectedTag: null,
+  page: 0
 }
 
 const articlesSlice = createSlice({
   name: 'articles',
   initialState,
-  reducers: {},
+  reducers: {
+    tagSelection(state, actions: PayloadAction<string>) {
+      state.selectedTag = actions.payload
+    },
+    switchingPages(state, actions: PayloadAction<number>) {
+      state.page = actions.payload
+    }
+  },
   extraReducers: builder => {
     builder
       .addCase(getGlobalArticles.pending, state => {
-        state.articleLoadingStatus = 'loading'
+        state.globalArticlesDownloadStatus = DownloadStatus.Loading
       })
       .addCase(getGlobalArticles.fulfilled, (state, actions) => {
+        state.globalArticlesDownloadStatus = DownloadStatus.Success
         state.globalArticles = actions.payload.articles
         state.globalArticlesCount = actions.payload.articlesCount
-        state.articleLoadingStatus = 'success'
       })
       .addCase(getGlobalArticles.rejected, (state, actions) => {
-        state.articleLoadingStatus = 'error'
+        state.globalArticlesDownloadStatus = DownloadStatus.Error
         state.error = actions.payload
       })
       .addCase(getAllTags.pending, state => {
-        state.tagsLoadingStatus = 'loading'
+        state.tagsDownloadStatus = DownloadStatus.Loading
       })
       .addCase(getAllTags.fulfilled, (state, actions) => {
         state.allTags = actions.payload.tags
-        state.tagsLoadingStatus = 'success'
+        state.tagsDownloadStatus = DownloadStatus.Success
       })
       .addCase(getAllTags.rejected, (state, actions) => {
-        state.tagsLoadingStatus = 'error'
+        state.tagsDownloadStatus = DownloadStatus.Error
         state.error = actions.payload
       })
   }
 })
 
-export const {} = articlesSlice.actions
+export const { tagSelection, switchingPages } = articlesSlice.actions
 export default articlesSlice.reducer

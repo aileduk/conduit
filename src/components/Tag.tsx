@@ -1,5 +1,6 @@
+import { getGlobalArticles, switchingPages, tagSelection } from '@/redux/features/articlesSlice'
+import { useAppDispatch } from '@/redux/hooks'
 import clsx from 'clsx'
-import Link from 'next/link'
 import React from 'react'
 
 interface TagProps {
@@ -14,10 +15,18 @@ const Tag = ({ tag, articleTags, allTags }: TagProps) => {
     'text-white bg-gray-400 hover:bg-gray-500': allTags
   })
 
+  const dispatch = useAppDispatch()
+
+  const getArticlesByTag = (tag: string) => {
+    dispatch(getGlobalArticles({ tag, page: 0 }))
+    dispatch(tagSelection(tag))
+    dispatch(switchingPages(0))
+  }
+
   return (
-    <Link href={''} className={tagClass}>
+    <button onClick={() => getArticlesByTag(tag)} className={tagClass}>
       {tag}
-    </Link>
+    </button>
   )
 }
 

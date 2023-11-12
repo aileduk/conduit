@@ -26,3 +26,14 @@ export interface IAuthor {
 export interface ITags {
   tags: string[]
 }
+
+export interface ArticlesParamsValues {
+  page: number
+  tag?: string | null
+}
+
+export enum DownloadStatus {
+  Loading = 'loading',
+  Success = 'success',
+  Error = 'error'
+}
