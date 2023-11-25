@@ -59,7 +59,7 @@ const articlesSlice = createSlice({
   name: 'articles',
   initialState,
   reducers: {
-    tagSelection(state, actions: PayloadAction<string>) {
+    tagSelection(state, actions: PayloadAction<string | null>) {
       state.selectedTag = actions.payload
     },
     switchingPages(state, actions: PayloadAction<number>) {

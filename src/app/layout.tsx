@@ -12,8 +12,7 @@ const titillium = Titillium_Web({ subsets: ['latin'], weight: ['400', '700'], va
 
 export const metadata: Metadata = {
   title: 'Conduit',
-  description: 'Conduit Real World',
-  
+  description: 'Conduit Real World'
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
