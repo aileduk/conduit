@@ -14,7 +14,7 @@ const ArticlesList = () => {
   return (
     <ul>
       {globalFeed.map(article => (
-        <Article key={article.slug} />
+        <Article key={article.slug} article={article} />
       ))}
     </ul>
   )
