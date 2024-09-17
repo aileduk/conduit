@@ -1,25 +1,37 @@
 import { FC } from "react"
+import { Link } from "react-router-dom"
 
 import { Article as ArticleType } from "../../types/types"
-import UserInfo from "../UserInfo/UserInfo"
 import Like from "../Like/Like"
+import Tag from "../Tag/Tag"
+import UserInfo from "../UserInfo/UserInfo"
 
 interface ArticleProps {
   article: ArticleType
 }
 
 const Article: FC<ArticleProps> = ({ article }) => {
-  const { title, description, author, createdAt,favoritesCount } = article
-  console.log(article)
+  const { title, description, author, createdAt, favoritesCount, tagList } = article
+  // console.log(article)
 
   return (
-    <li>
-      <div className="flex justify-between items-center">
+    <li className="pb-5 border-b border-gray-300 flex flex-col gap-y-2">
+      <div className='flex justify-between items-center'>
         <UserInfo author={author} date={createdAt} />
-        <Like like={favoritesCount}/>
+        <Like like={favoritesCount} />
       </div>
       <h2 className='text-2xl font-bold'>{title}</h2>
       <p className='text-gray-400'>{description}</p>
+      <div className='flex items-center justify-between'>
+        <Link to='/' className='text-xs text-gray-400'>
+          Read more...
+        </Link>
+        <ul className="flex items-center gap-1">
+          {tagList.map(tag => (
+            <Tag key={tag} tag={tag} />
+          ))}
+        </ul>
+      </div>
     </li>
   )
 }

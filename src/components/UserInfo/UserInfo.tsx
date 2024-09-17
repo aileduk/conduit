@@ -1,5 +1,6 @@
 import { FC } from "react"
 import { Link } from "react-router-dom"
+
 import { formatDate } from "../../helpers/formatDate"
 import { Author } from "../../types/types"
 
@@ -17,7 +18,7 @@ const UserInfo: FC<UserInfoProps> = ({ author, date }) => {
         <img src={image} alt='' className='w-8 aspect-square rounded-full' />
       </Link>
       <div>
-        <Link to='/' className='text-green-600'>
+        <Link to='/' className='text-green-600 hover:underline'>
           {username}
         </Link>
         <p className='text-xs text-gray-400'>{formatDate(date)}</p>

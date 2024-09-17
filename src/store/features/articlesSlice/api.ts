@@ -17,3 +17,18 @@ export const fetchGlobalFeed = createAsyncThunk<GlobalFeedResponse, undefined, {
     return result
   }
 )
+
+export const fetchPopularTags = createAsyncThunk<string[], undefined, { rejectValue: string }>(
+  "articles/fetchPopularTags",
+  async function (_, { rejectWithValue }) {
+    const response = await fetch(`${URL}${UrlEndpoints.tags}`)
+
+    if (!response.ok) {
+      return rejectWithValue("Server error!")
+    }
+
+    const result = await response.json()
+
+    return result.tags
+  }
+)

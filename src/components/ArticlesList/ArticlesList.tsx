@@ -12,7 +12,7 @@ const ArticlesList = () => {
   }, [dispatch])
 
   return (
-    <ul>
+    <ul className="flex flex-col gap-y-5">
       {globalFeed.map(article => (
         <Article key={article.slug} article={article} />
       ))}
