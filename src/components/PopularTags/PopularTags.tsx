@@ -13,7 +13,7 @@ const PopularTags = () => {
   }, [dispatch])
 
   return (
-    <aside className='w-1/4 p-3 bg-gray-200 h-min'>
+    <aside className='md:w-1/4 p-3 bg-gray-200 h-min'>
       <h2 className="mb-2">Popular Tags</h2>
       <ul className="flex flex-wrap gap-2">
         {tagList.map(tag => (

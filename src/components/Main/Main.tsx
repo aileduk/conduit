@@ -8,9 +8,9 @@ const Main = () => {
     <>
       <Banner />
       <Container>
-        <div className='flex gap-5 mt-5'>
-          <Content />
+        <div className='md:flex md:flex-row-reverse gap-5 mt-5'>
           <PopularTags />
+          <Content />
         </div>
       </Container>
     </>

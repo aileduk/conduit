@@ -12,7 +12,6 @@ interface ArticleProps {
 
 const Article: FC<ArticleProps> = ({ article }) => {
   const { title, description, author, createdAt, favoritesCount, tagList } = article
-  // console.log(article)
 
   return (
     <li className="pb-5 border-b border-gray-300 flex flex-col gap-y-2">
@@ -22,11 +21,11 @@ const Article: FC<ArticleProps> = ({ article }) => {
       </div>
       <h2 className='text-2xl font-bold'>{title}</h2>
       <p className='text-gray-400'>{description}</p>
-      <div className='flex items-center justify-between'>
-        <Link to='/' className='text-xs text-gray-400'>
+      <div className='flex items-center justify-between gap-5'>
+        <Link to='/' className='text-xs whitespace-nowrap text-gray-400 hover:text-gray-500'>
           Read more...
         </Link>
-        <ul className="flex items-center gap-1">
+        <ul className="flex flex-wrap items-center justify-end gap-1">
           {tagList.map(tag => (
             <Tag key={tag} tag={tag} />
           ))}
