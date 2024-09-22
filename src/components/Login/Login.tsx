@@ -1,5 +1,12 @@
+import Container from "../../layouts/Container"
+import Form from "../Form/Form"
+
 const Login = () => {
-  return <div>Login</div>
+  return (
+    <Container>
+      <Form actionText='Sign in' accoutText='Need an account?' />
+    </Container>
+  )
 }
 
 export default Login
