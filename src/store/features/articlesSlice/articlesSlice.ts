@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-import { fetchGlobalFeed, fetchPopularTags } from "./api"
+import { fetchArticleDetails, fetchGlobalFeed, fetchPopularTags } from "./api"
 
 import { Article } from "../../../types/types"
 
@@ -8,12 +8,14 @@ type ArticlesState = {
   globalFeed: Article[]
   globalFeedCount: number
   tagList: string[]
+  articleDetails: Article | null
 }
 
 const initialState: ArticlesState = {
   globalFeed: [],
   globalFeedCount: 0,
-  tagList: []
+  tagList: [],
+  articleDetails: null
 }
 
 const articlesSlice = createSlice({
@@ -27,6 +29,9 @@ const articlesSlice = createSlice({
     })
     builder.addCase(fetchPopularTags.fulfilled, (state, actions) => {
       state.tagList = actions.payload
+    })
+    builder.addCase(fetchArticleDetails.fulfilled, (state, actions) => {
+      state.articleDetails = actions.payload
     })
   }
 })

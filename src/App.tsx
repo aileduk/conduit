@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
-import { Endpoints } from "./consts/endpoints"
+import ArticleDetails from "./components/ArticleDetails/ArticleDetails"
+import { Endpoints, UrlEndpoints } from "./consts/endpoints"
 import Layout from "./layouts/Layout"
 import ErrorPage from "./pages/ErrorPage"
 import LoginPage from "./pages/LoginPage"
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: Endpoints.Register,
         element: <RegisterPage />
+      },
+      {
+        path: `${UrlEndpoints.artigles}/:slug`,
+        element: <ArticleDetails />
       }
     ]
   }
