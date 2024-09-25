@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 
 import { UrlEndpoints } from "../../consts/endpoints"
 import { Article as ArticleType } from "../../types/types"
+
 import Like from "../Like/Like"
 import Tag from "../Tag/Tag"
 import UserInfo from "../UserInfo/UserInfo"
@@ -20,8 +21,12 @@ const Article: FC<ArticleProps> = ({ article }) => {
         <UserInfo author={author} date={createdAt} />
         <Like like={favoritesCount} />
       </div>
-      <h2 className='text-2xl font-bold'>{title}</h2>
-      <p className='text-gray-400'>{description}</p>
+      <Link to={`${UrlEndpoints.artigles}/${slug}`}>
+        <h2 className='text-2xl font-bold'>{title}</h2>
+      </Link>
+      <Link to={`${UrlEndpoints.artigles}/${slug}`}>
+        <p className='text-gray-400'>{description}</p>
+      </Link>
       <div className='flex items-center justify-between gap-5'>
         <Link
           to={`${UrlEndpoints.artigles}/${slug}`}

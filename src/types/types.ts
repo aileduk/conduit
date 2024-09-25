@@ -5,6 +5,7 @@ export type GlobalFeedResponse = {
 
 export type Article = {
   slug: string
+  body: string
   title: string
   description: string
   tagList: string[]
