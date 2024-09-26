@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
 import { URL, UrlEndpoints } from "../../../consts/endpoints"
-import { Article, GlobalFeedResponse } from "../../../types/types"
+import { Article, Author, GlobalFeedResponse } from "../../../types/types"
 
 export const fetchGlobalFeed = createAsyncThunk<GlobalFeedResponse, undefined, { rejectValue: string }>(
   "articles/fetchGlobalFeed",
   async function (_, { rejectWithValue }) {
-    const response = await fetch(`${URL}${UrlEndpoints.artigles}`)
+    const response = await fetch(`${URL}${UrlEndpoints.Articles}`)
 
     if (!response.ok) {
       return rejectWithValue("Server error!")
@@ -21,7 +21,7 @@ export const fetchGlobalFeed = createAsyncThunk<GlobalFeedResponse, undefined, {
 export const fetchPopularTags = createAsyncThunk<string[], undefined, { rejectValue: string }>(
   "articles/fetchPopularTags",
   async function (_, { rejectWithValue }) {
-    const response = await fetch(`${URL}${UrlEndpoints.tags}`)
+    const response = await fetch(`${URL}${UrlEndpoints.Tags}`)
 
     if (!response.ok) {
       return rejectWithValue("Server error!")
@@ -36,7 +36,7 @@ export const fetchPopularTags = createAsyncThunk<string[], undefined, { rejectVa
 export const fetchArticleDetails = createAsyncThunk<Article, string, { rejectValue: string }>(
   "articles/fetchArticleDetails",
   async function (slug: string, { rejectWithValue }) {
-    const response = await fetch(`${URL}${`${UrlEndpoints.artigles}/${slug}`}`)
+    const response = await fetch(`${URL}${`${UrlEndpoints.Articles}/${slug}`}`)
 
     if (!response.ok) {
       return rejectWithValue("Server error!")
@@ -45,5 +45,35 @@ export const fetchArticleDetails = createAsyncThunk<Article, string, { rejectVal
     const result = await response.json()
 
     return result.article
+  }
+)
+
+export const fetchUserDetails = createAsyncThunk<Author, string, { rejectValue: string }>(
+  "articles/fetchUserDetails",
+  async function (username: string, { rejectWithValue }) {
+    const response = await fetch(`${URL}${`${UrlEndpoints.Profiles}/${username}`}`)
+
+    if (!response.ok) {
+      return rejectWithValue("Server error!")
+    }
+
+    const result = await response.json()
+
+    return result.profile
+  }
+)
+
+export const fetchAuthorFeed = createAsyncThunk<GlobalFeedResponse, string, { rejectValue: string }>(
+  "articles/fetchAuthorFeed",
+  async function (username: string, { rejectWithValue }) {
+    const response = await fetch(`${URL}${UrlEndpoints.Articles}?author=${username}`)
+
+    if (!response.ok) {
+      return rejectWithValue("Server error!")
+    }
+
+    const result = await response.json()
+
+    return result
   }
 )

@@ -1,21 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-import { fetchArticleDetails, fetchGlobalFeed, fetchPopularTags } from "./api"
+import { fetchArticleDetails, fetchAuthorFeed, fetchGlobalFeed, fetchPopularTags, fetchUserDetails } from "./api"
 
-import { Article } from "../../../types/types"
+import { Article, Author } from "../../../types/types"
 
 type ArticlesState = {
   globalFeed: Article[]
   globalFeedCount: number
   tagList: string[]
   articleDetails: Article | null
+  userDetails: Author | null
+  authorFeed: Article[]
+  authorFeedCount: number
 }
 
 const initialState: ArticlesState = {
   globalFeed: [],
   globalFeedCount: 0,
   tagList: [],
-  articleDetails: null
+  articleDetails: null,
+  userDetails: null,
+  authorFeed: [],
+  authorFeedCount: 0
 }
 
 const articlesSlice = createSlice({
@@ -32,6 +38,13 @@ const articlesSlice = createSlice({
     })
     builder.addCase(fetchArticleDetails.fulfilled, (state, actions) => {
       state.articleDetails = actions.payload
+    })
+    builder.addCase(fetchUserDetails.fulfilled, (state, actions) => {
+      state.userDetails = actions.payload
+    })
+    builder.addCase(fetchAuthorFeed.fulfilled, (state, actions) => {
+      state.authorFeed = actions.payload.articles
+      state.authorFeedCount = actions.payload.articlesCount
     })
   }
 })

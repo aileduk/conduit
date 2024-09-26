@@ -7,6 +7,7 @@ export enum Endpoints {
 }
 
 export enum UrlEndpoints {
-  artigles = "articles",
-  tags = "tags"
+  Articles = "articles",
+  Tags = "tags",
+  Profiles = "profiles"
 }

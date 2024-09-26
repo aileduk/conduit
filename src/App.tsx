@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 import ArticleDetails from "./components/ArticleDetails/ArticleDetails"
+import UserDetails from "./components/UserDetails/UserDetails"
 import { Endpoints, UrlEndpoints } from "./consts/endpoints"
 import Layout from "./layouts/Layout"
 import ErrorPage from "./pages/ErrorPage"
@@ -27,8 +28,12 @@ const router = createBrowserRouter([
         element: <RegisterPage />
       },
       {
-        path: `${UrlEndpoints.artigles}/:slug`,
+        path: `${UrlEndpoints.Articles}/:slug`,
         element: <ArticleDetails />
+      },
+      {
+        path: `${UrlEndpoints.Profiles}/:username`,
+        element: <UserDetails />
       }
     ]
   }

@@ -21,15 +21,15 @@ const Article: FC<ArticleProps> = ({ article }) => {
         <UserInfo author={author} date={createdAt} />
         <Like like={favoritesCount} />
       </div>
-      <Link to={`${UrlEndpoints.artigles}/${slug}`}>
+      <Link to={`${UrlEndpoints.Articles}/${slug}`}>
         <h2 className='text-2xl font-bold'>{title}</h2>
       </Link>
-      <Link to={`${UrlEndpoints.artigles}/${slug}`}>
+      <Link to={`${UrlEndpoints.Articles}/${slug}`}>
         <p className='text-gray-400'>{description}</p>
       </Link>
       <div className='flex items-center justify-between gap-5'>
         <Link
-          to={`${UrlEndpoints.artigles}/${slug}`}
+          to={`${UrlEndpoints.Articles}/${slug}`}
           className='text-xs whitespace-nowrap text-gray-400 hover:text-gray-500'
         >
           Read more...
