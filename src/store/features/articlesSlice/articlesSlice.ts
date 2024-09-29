@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 import { fetchArticleDetails, fetchAuthorFeed, fetchGlobalFeed, fetchPopularTags, fetchUserDetails } from "./api"
 
@@ -12,6 +12,7 @@ type ArticlesState = {
   userDetails: Author | null
   authorFeed: Article[]
   authorFeedCount: number
+  offset: number
 }
 
 const initialState: ArticlesState = {
@@ -21,13 +22,18 @@ const initialState: ArticlesState = {
   articleDetails: null,
   userDetails: null,
   authorFeed: [],
-  authorFeedCount: 0
+  authorFeedCount: 0,
+  offset: 0
 }
 
 const articlesSlice = createSlice({
   name: "articles",
   initialState,
-  reducers: {},
+  reducers: {
+    setOffset(state, actions: PayloadAction<number>) {
+      state.offset = actions.payload
+    }
+  },
   extraReducers: builder => {
     builder.addCase(fetchGlobalFeed.fulfilled, (state, actions) => {
       state.globalFeed = actions.payload.articles
@@ -50,3 +56,4 @@ const articlesSlice = createSlice({
 })
 
 export default articlesSlice.reducer
+export const { setOffset } = articlesSlice.actions

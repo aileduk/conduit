@@ -1,12 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 
+import { ARTICLES_PER_AUTHOR_PAGE, ARTICLES_PER_PAGE } from "../../../consts/const"
 import { URL, UrlEndpoints } from "../../../consts/endpoints"
 import { Article, Author, GlobalFeedResponse } from "../../../types/types"
 
-export const fetchGlobalFeed = createAsyncThunk<GlobalFeedResponse, undefined, { rejectValue: string }>(
+export const fetchGlobalFeed = createAsyncThunk<GlobalFeedResponse, number, { rejectValue: string }>(
   "articles/fetchGlobalFeed",
-  async function (_, { rejectWithValue }) {
-    const response = await fetch(`${URL}${UrlEndpoints.Articles}`)
+  async function (offset: number, { rejectWithValue }) {
+    const response = await fetch(
+      `${URL}${UrlEndpoints.Articles}?${UrlEndpoints.Limit}=${ARTICLES_PER_PAGE}&${UrlEndpoints.Offset}=${offset}`
+    )
 
     if (!response.ok) {
       return rejectWithValue("Server error!")
@@ -63,10 +66,16 @@ export const fetchUserDetails = createAsyncThunk<Author, string, { rejectValue: 
   }
 )
 
-export const fetchAuthorFeed = createAsyncThunk<GlobalFeedResponse, string, { rejectValue: string }>(
+export const fetchAuthorFeed = createAsyncThunk<
+  GlobalFeedResponse,
+  { username: string; offset: number },
+  { rejectValue: string }
+>(
   "articles/fetchAuthorFeed",
-  async function (username: string, { rejectWithValue }) {
-    const response = await fetch(`${URL}${UrlEndpoints.Articles}?author=${username}`)
+  async function ({ username, offset }: { username: string; offset: number }, { rejectWithValue }) {
+    const response = await fetch(
+      `${URL}${UrlEndpoints.Articles}?${UrlEndpoints.Author}=${username}&${UrlEndpoints.Limit}=${ARTICLES_PER_AUTHOR_PAGE}&${UrlEndpoints.Offset}=${offset}`
+    )
 
     if (!response.ok) {
       return rejectWithValue("Server error!")

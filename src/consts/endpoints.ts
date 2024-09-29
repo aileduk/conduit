@@ -7,7 +7,10 @@ export enum Endpoints {
 }
 
 export enum UrlEndpoints {
-  Articles = "articles",
-  Tags = "tags",
-  Profiles = "profiles"
+  Articles = "/articles",
+  Tags = "/tags",
+  Profiles = "/profiles",
+  Limit = "limit",
+  Offset = "offset",
+  Author = "author"
 }

@@ -8,8 +8,9 @@ interface TagProps {
 }
 
 const Tag: FC<TagProps> = ({ tag, isTagList }) => {
-  const tagStyle = clsx("text-sm cursor-auto text-gray-400 border border-gray-400 rounded-full text-center px-2", {
-    "bg-gray-400 text-white cursor-pointer hover:bg-gray-500": isTagList
+  const tagStyle = clsx("text-sm border border-gray-400 rounded-full text-center px-2 select-none", {
+    "bg-gray-400 text-white cursor-pointer hover:bg-gray-500": isTagList,
+    "cursor-default text-gray-400": !isTagList
   })
 
   return (

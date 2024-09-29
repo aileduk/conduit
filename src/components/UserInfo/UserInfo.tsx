@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 import { UrlEndpoints } from "../../consts/endpoints"
 import { formatDate } from "../../helpers/formatDate"
@@ -14,15 +14,22 @@ interface UserInfoProps {
 const UserInfo: FC<UserInfoProps> = ({ author, date, usernameColor }) => {
   const { image, username } = author
 
+  const { username: name } = useParams<string>()
+
   return (
     <div className='flex items-center gap-x-2'>
-      <Link to={`${UrlEndpoints.Profiles}/${author.username}`}>
+      <Link
+        to={`${UrlEndpoints.Profiles}/${author.username}`}
+        className={`${name === username ? "pointer-events-none" : ""}`}
+      >
         <img src={image} alt='' className='w-8 aspect-square rounded-full' />
       </Link>
       <div>
         <Link
           to={`${UrlEndpoints.Profiles}/${author.username}`}
-          className={`${usernameColor ? usernameColor : "text-green-600"} hover:underline`}
+          className={`${usernameColor || "text-green-600"}  ${
+            name === username ? "pointer-events-none" : ""
+          } hover:underline`}
         >
           {username}
         </Link>
