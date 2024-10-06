@@ -2,24 +2,27 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 
 import { ARTICLES_PER_AUTHOR_PAGE, ARTICLES_PER_PAGE } from "../../../consts/const"
 import { URL, UrlEndpoints } from "../../../consts/endpoints"
-import { Article, Author, GlobalFeedResponse } from "../../../types/types"
+import { Article, Author, Comment, GlobalFeedResponse } from "../../../types/types"
 
-export const fetchGlobalFeed = createAsyncThunk<GlobalFeedResponse, number, { rejectValue: string }>(
-  "articles/fetchGlobalFeed",
-  async function (offset: number, { rejectWithValue }) {
-    const response = await fetch(
-      `${URL}${UrlEndpoints.Articles}?${UrlEndpoints.Limit}=${ARTICLES_PER_PAGE}&${UrlEndpoints.Offset}=${offset}`
-    )
+export const fetchGlobalFeed = createAsyncThunk<
+  GlobalFeedResponse,
+  { offset: number; tag: string },
+  { rejectValue: string }
+>("articles/fetchGlobalFeed", async function ({ offset, tag }: { offset: number; tag: string }, { rejectWithValue }) {
+  const response = await fetch(
+    `${URL}${UrlEndpoints.Articles}?${UrlEndpoints.Limit}=${ARTICLES_PER_PAGE}&${UrlEndpoints.Offset}=${offset}${
+      tag ? `&${UrlEndpoints.Tag}=${tag}` : ""
+    }`
+  )
 
-    if (!response.ok) {
-      return rejectWithValue("Server error!")
-    }
-
-    const result = await response.json()
-
-    return result
+  if (!response.ok) {
+    return rejectWithValue("Server error!")
   }
-)
+
+  const result = await response.json()
+
+  return result
+})
 
 export const fetchPopularTags = createAsyncThunk<string[], undefined, { rejectValue: string }>(
   "articles/fetchPopularTags",
@@ -48,6 +51,20 @@ export const fetchArticleDetails = createAsyncThunk<Article, string, { rejectVal
     const result = await response.json()
 
     return result.article
+  }
+)
+export const fetchCommentsForArticle = createAsyncThunk<Comment[], string, { rejectValue: string }>(
+  "articles/fetchCommentsForArticle",
+  async function (slug: string, { rejectWithValue }) {
+    const response = await fetch(`${URL}${`${UrlEndpoints.Articles}/${slug}/comments`}`)
+
+    if (!response.ok) {
+      return rejectWithValue("Server error!")
+    }
+
+    const result = await response.json()
+
+    return result.comments
   }
 )
 

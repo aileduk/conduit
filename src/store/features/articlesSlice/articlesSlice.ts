@@ -1,8 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-import { fetchArticleDetails, fetchAuthorFeed, fetchGlobalFeed, fetchPopularTags, fetchUserDetails } from "./api"
+import {
+  fetchArticleDetails,
+  fetchAuthorFeed,
+  fetchCommentsForArticle,
+  fetchGlobalFeed,
+  fetchPopularTags,
+  fetchUserDetails
+} from "./api"
 
-import { Article, Author } from "../../../types/types"
+import { Article, Author, Comment } from "../../../types/types"
 
 type ArticlesState = {
   globalFeed: Article[]
@@ -13,6 +20,8 @@ type ArticlesState = {
   authorFeed: Article[]
   authorFeedCount: number
   offset: number
+  comments: Comment[]
+  tag: string
 }
 
 const initialState: ArticlesState = {
@@ -23,7 +32,9 @@ const initialState: ArticlesState = {
   userDetails: null,
   authorFeed: [],
   authorFeedCount: 0,
-  offset: 0
+  offset: 0,
+  comments: [],
+  tag: ""
 }
 
 const articlesSlice = createSlice({
@@ -51,6 +62,9 @@ const articlesSlice = createSlice({
     builder.addCase(fetchAuthorFeed.fulfilled, (state, actions) => {
       state.authorFeed = actions.payload.articles
       state.authorFeedCount = actions.payload.articlesCount
+    })
+    builder.addCase(fetchCommentsForArticle.fulfilled, (state, actions) => {
+      state.comments = actions.payload
     })
   }
 })

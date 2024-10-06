@@ -12,5 +12,6 @@ export enum UrlEndpoints {
   Profiles = "/profiles",
   Limit = "limit",
   Offset = "offset",
-  Author = "author"
+  Author = "author",
+  Tag = "tag"
 }

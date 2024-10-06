@@ -1,10 +1,12 @@
 import { useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
+import { Endpoints } from "../../consts/endpoints"
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks"
 import Container from "../../layouts/Container"
-import { fetchArticleDetails } from "../../store/features/articlesSlice/api"
+import { fetchArticleDetails, fetchCommentsForArticle } from "../../store/features/articlesSlice/api"
 import ArticleBanner from "../ArticleBanner/ArticleBanner"
+import CommentsList from "../CommentsList/CommentsList"
 import Follow from "../Follow/Follow"
 import Like from "../Like/Like"
 import Loading from "../Loading/Loading"
@@ -14,11 +16,13 @@ import UserInfo from "../UserInfo/UserInfo"
 const ArticleDetails = () => {
   const dispatch = useAppDispatch()
   const { slug } = useParams<string>()
-  const { articleDetails } = useAppSelector(state => state.articles)
+  const { articleDetails, comments } = useAppSelector(state => state.articles)
+console.log(comments);
 
   useEffect(() => {
     if (slug) {
       dispatch(fetchArticleDetails(slug))
+      dispatch(fetchCommentsForArticle(slug))
     }
   }, [dispatch, slug])
 
@@ -45,6 +49,19 @@ const ArticleDetails = () => {
           <Follow author={articleDetails.author} />
           <Like like={articleDetails.favoritesCount} withText />
         </div>
+      </Container>
+      <Container width='max-w-screen-md'>
+        <p className='flex gap-x-1 text-center my-5'>
+          <Link to={Endpoints.Login} className='text-green-600 hover:underline'>
+            Sign in
+          </Link>
+          or
+          <Link to={Endpoints.Register} className='text-green-600 hover:underline'>
+            sign up
+          </Link>
+          to add comments on this article.
+        </p>
+        <CommentsList comments={comments} />
       </Container>
     </>
   )
